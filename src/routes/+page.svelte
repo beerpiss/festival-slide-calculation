@@ -49,7 +49,7 @@
         for (let i = 1; i < componentCount; i++) {
             const delay = 0.25 + (len / componentDivisor) * i;
             const bpm = slideBpm * 0.25 * (1 / delay);
-            const divisor = componentDivisor * delay * 4;
+            const divisor = componentDivisor / len * delay * 4;
             components.push(`[${bpm}#${divisor}:1]`);
         }
 
