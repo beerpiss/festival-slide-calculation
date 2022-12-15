@@ -3,12 +3,16 @@ lockfileVersion: 5.4
 specifiers:
   '@sveltejs/adapter-static': ~1.0.0
   '@sveltejs/kit': ^1.0.0
+  fraction.js: ~4.2.0
   gh-pages: ~4.0.0
   svelte: ^3.54.0
   svelte-check: ^2.9.2
   tslib: ^2.4.1
   typescript: ^4.9.3
   vite: ^4.0.0
+
+dependencies:
+  fraction.js: 4.2.0
 
 devDependencies:
   '@sveltejs/adapter-static': 1.0.0_@sveltejs+kit@1.0.0
@@ -558,6 +562,10 @@ packages:
       locate-path: 5.0.0
       path-exists: 4.0.0
     dev: true
+
+  /fraction.js/4.2.0:
+    resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
+    dev: false
 
   /fs-extra/8.1.0:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}

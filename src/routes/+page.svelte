@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
+    import Fraction from 'fraction.js';
 
     const searchParams = browser ? new URLSearchParams(document.location.search) : new URLSearchParams();
 
@@ -50,7 +51,11 @@
             const delay = 0.25 + (len / componentDivisor) * i;
             const bpm = slideBpm * 0.25 * (1 / delay);
             const divisor = componentDivisor / len * delay * 4;
-            components.push(`[${bpm}#${divisor}:1]`);
+            
+            const fraction = new Fraction(1).div(divisor);
+            const [num, den] = fraction.toFraction().split("/");
+
+            components.push(`[${bpm}#${den}:${num}]`);
         }
 
         return [components, ""]
