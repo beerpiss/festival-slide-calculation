@@ -1,7 +1,22 @@
 <script lang="ts">
-    let slideDuration: string = "[3:1]";
-    let slideBpm: number = 1;
-    let componentCount: number = 1;
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+
+    let slideDuration: string = $page.url.searchParams.get("sd") ?? "[3:1]";
+    let slideBpm: number = Number($page.url.searchParams.get("sb") ?? "1");
+    let componentCount: number = Number($page.url.searchParams.get("c") ?? "1");
+
+    function copyLink() {
+        goto(
+            "?" +
+            new URLSearchParams({
+                "sd": slideDuration,
+                "sb": slideBpm.toString(),
+                "c": componentCount.toString(),
+            }),
+            { replaceState: true }
+        )
+    }
 
     function parseSlideDuration(slideDuration: string): number[] | null {
         if (slideDuration.includes("#")) {
@@ -58,6 +73,7 @@
     <input type="number" bind:value={componentCount} />
 </div>
 {#if components.length > 0}
+<button on:click={copyLink}>Link to this result</button>
 <div>
     Component list:
     <ul>
@@ -66,7 +82,6 @@
         {/each}
     </ul>
 </div>
-
 {:else if error.length > 0}
 <div>
     ERROR: {error}
