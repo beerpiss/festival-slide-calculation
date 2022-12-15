@@ -1,10 +1,12 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { browser } from '$app/environment';
 
-    let slideDuration: string = $page.url.searchParams.get("sd") ?? "[3:1]";
-    let slideBpm: number = Number($page.url.searchParams.get("sb") ?? "1");
-    let componentCount: number = Number($page.url.searchParams.get("c") ?? "1");
+    const searchParams = browser ? new URLSearchParams(document.location.search) : new URLSearchParams();
+
+    let slideDuration: string = searchParams.get("sd") ?? "[3:1]";
+    let slideBpm: number = Number(searchParams.get("sb") ?? "1");
+    let componentCount: number = Number(searchParams.get("c") ?? "1");
 
     function copyLink() {
         goto(
