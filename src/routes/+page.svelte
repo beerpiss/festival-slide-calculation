@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
     import Fraction from 'fraction.js';
 
-    const searchParams = browser ? new URLSearchParams(document.location.search) : $page.url.searchParams;
+    const searchParams = browser ? new URLSearchParams(document.location.search) : new URLSearchParams();
 
     let slideDuration: string = searchParams.get("sd") ?? "[4:3]";
     let slideBpm: number = Number(searchParams.get("sb") ?? "155");
