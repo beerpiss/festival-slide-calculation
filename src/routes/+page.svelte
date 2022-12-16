@@ -1,13 +1,14 @@
 <script lang="ts">
+    import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
     import Fraction from 'fraction.js';
 
-    const searchParams = browser ? new URLSearchParams(document.location.search) : new URLSearchParams();
+    const searchParams = browser ? new URLSearchParams(document.location.search) : $page.url.searchParams;
 
-    let slideDuration: string = searchParams.get("sd") ?? "[3:1]";
-    let slideBpm: number = Number(searchParams.get("sb") ?? "1");
-    let componentCount: number = Number(searchParams.get("c") ?? "1");
+    let slideDuration: string = searchParams.get("sd") ?? "[4:3]";
+    let slideBpm: number = Number(searchParams.get("sb") ?? "155");
+    let componentCount: number = Number(searchParams.get("c") ?? "3");
 
     function copyLink() {
         goto(
@@ -48,14 +49,14 @@
         const componentDivisor = divisor * componentCount;
         const components: string[] = [`[${componentDivisor}:${len}]`];
         for (let i = 1; i < componentCount; i++) {
-            const delay = 0.25 + (len / componentDivisor) * i;
-            const bpm = slideBpm * 0.25 * (1 / delay);
-            const divisor = componentDivisor / len * delay * 4;
+            const delay = new Fraction(len).div(componentDivisor).mul(i).add(0.25);
+            const bpm = new Fraction(slideBpm).mul(0.25).div(delay);
+            const divisor = new Fraction(componentDivisor).div(len).mul(delay).mul(4);
             
             const fraction = new Fraction(1).div(divisor);
             const [num, den] = fraction.toFraction().split("/");
 
-            components.push(`[${bpm}#${den}:${num}]`);
+            components.push(`[${+bpm.valueOf().toFixed(13)}#${den}:${num}]`);
         }
 
         return [components, ""]
@@ -64,6 +65,13 @@
     $: [components, error] = calculateComponents(slideDuration, slideBpm, componentCount)
 </script>
 
+<div>
+    All the calculations are assuming that the slides start at (nearly) the same time.<br>
+    To do this without making the slide yellow, use pseudo-EACH (the backtick character <code>`</code>):
+    <pre><code>1-3[12:3]`3-5[77.5#8:1]`5-7[51.6666666666667#12:1]</code></pre>
+    or put an extremely small delay between them:
+    <pre><code>{`|| Assuming the beat divisor before this is {8}\n{9999}1-3[12:3],3-5[77.5#8:1],{8}5-7[51.6666666666667#12:1]`}</code></pre>
+</div>
 <div>
     <strong>Original slide duration:</strong>
     <br />
