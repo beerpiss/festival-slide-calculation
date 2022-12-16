@@ -64,6 +64,13 @@
     $: [components, error] = calculateComponents(slideDuration, slideBpm, componentCount)
 </script>
 
+<svelte:head>
+    <title>FESTiVAL Slide Calculator</title>
+    <meta property="og:title" content="FESTiVAL Slide Calculator" />
+    <meta property="og:description" content="Split a FESTiVAL CHAIN SLIDE into smaller slides of the same duration. The slide delay is also set, so that the next slide immediately starts when the previous one ends." />
+    <meta property="og:url" content="https://beerpiss.github.io/festival-slide-calculation/" />
+    <meta property="og:image" content="https://beerpiss.github.io/festival-slide-calculation/favicon.png" />
+</svelte:head>
 <div>
     All the calculations are assuming that the slides start at (nearly) the same time.<br>
     To do this without making the slide yellow, use pseudo-EACH (the backtick character <code>`</code>):
